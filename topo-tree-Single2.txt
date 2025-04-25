@@ -1,0 +1,67 @@
+# topo-tree-Single.txt
+/**
+ * This scenario simulates a tree topology (using topology reader module)
+ *
+ *
+ *    /------\   /------\                        /------\    /------\
+ *    |leaf-1|   |leaf-2|                        |leaf-3|    |leaf-4|
+ *    \------/   \------/                        \------/    \------/
+ *         ^     ^                                  ^           ^
+ *         |     |                                  |     /-----|
+ *          \   /                                  /-----/
+ *           \ /                                  /           1 Gbps / 30ms
+ *            \    ________/-------\_______    /
+ *             |  |        | rtr-3 |       |  /  
+ *             v  v        \-------/       v /   
+ *          /-------\          |          /-------\
+ *          | rtr-1 | <--------|--------> | rtr-2 |
+ *          \-------/          |         \-------/
+ *                ^            |            ^
+ *                |            |             |
+ *                 \           |            /  1 Gbps / 30ms
+ *                  +--------+ |  +--------+
+ *                           | |  |
+ *                           v v v
+ *                        /--------\
+ *                     |  Controller1  |
+ *                        \--------/
+ *
+ *
+**/
+
+router
+
+#node	city	y	x	mpi-partition
+leaf-1	NA	-80	-40	1
+leaf-2	NA	-80	-30	3
+leaf-3	NA	-80	10	2
+leaf-4	NA	-80	20	4
+rtr-3	NA	-70	-10	0
+rtr-1	NA	-60	-20	1
+rtr-2	NA	-60	0	2
+Cont1	NA	-40	-10	0
+
+link
+
+# from	    to		capacity	metric	delay	queue
+leaf-1	    rtr-1	1Gbps		1	30ms	1000
+leaf-2	    rtr-1	1Gbps		1	30ms	1000
+leaf-3	    rtr-2	1Gbps		1	30ms	1000
+leaf-4	    rtr-2	1Gbps		1	30ms	1000
+rtr-3	    rtr-2	1Gbps		1	30ms	1000
+rtr-3	    Cont1	1Gbps		1	30ms	1000
+rtr-1	    rtr-2	1Gbps		1	30ms	1000
+rtr-1	    Cont1	1Gbps		1	30ms	1000
+rtr-2	    rtr-3	1Gbps		1	30ms	1000
+rtr-2	    rtr-1	1Gbps		1	30ms	1000
+rtr-2	    Cont1	1Gbps		1	30ms	1000
+
+
+
+
+
+
+
+
+
+
