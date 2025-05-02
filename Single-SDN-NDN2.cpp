@@ -90,7 +90,7 @@ main (int argc, char *argv[])
     Config::SetDefault("ns3::QueueBase::MaxSize", StringValue("50p"));
   // Creating nodes  from topology text file
   AnnotatedTopologyReader topologyReader("", 1);
-  topologyReader.SetFileName("src/ndnSIM/examples/topologies/topo-tree-Single.txt");
+  topologyReader.SetFileName("src/ndnSIM/examples/topologies/topo-tree-Single2.txt");
   topologyReader.Read();
 
 
