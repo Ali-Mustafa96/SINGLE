@@ -98,35 +98,18 @@ main (int argc, char *argv[])
   Ptr<Node> producer = Names::Find<Node>("leaf-2");
   Ptr<Node> switchNode = Names::Find<Node>("Cont1"); // The controller node
  
-  NodeContainer terminals;
-  terminals.Create (5); // Producer & Consumer and 3 NDN Nodes
+  NodeContainer switchDevices;
+  switchDevices.Create (3); // 3 NDN Nodes
 
-  NodeContainer SwitchContainer;
-  SwitchContainer.Create (1); // OF Switch Controller
+ NodeContainer terminals;
+  terminals.Create (2); //1 pair of Producer & Consumer 
 
   NS_LOG_INFO ("Build Topology");
   CsmaHelper csma;
   csma.SetChannelAttribute ("DataRate", DataRateValue (1000000000));
   
   csma.SetChannelAttribute ("Delay", TimeValue (MilliSeconds (30)));
-
-
-
-
   
-  // Create the csma links, from each terminals to the switch
-  NetDeviceContainer terminalDevices;
-  NetDeviceContainer switchDevices;
-  
- // for (int i = 0; i < 2; i++)
-   // {
-     // NetDeviceContainer link = csma.Install (NodeContainer (terminals.Get (i), SwitchContainer));
-      //terminalDevices.Add (link.Get (0));
-      //switchDevices.Add (link.Get (1));  
-    //}
-
-  // Create the Controller netdevice, which will do the packet switching (Install OpenFlow switch)
-  //Ptr<Node> switchNode = SwitchContainer.Get (0);
   OpenFlowSwitchHelper swtch;
 
   if (use_drop)
@@ -140,10 +123,7 @@ main (int argc, char *argv[])
       if (!timeout.IsZero ()) controller->SetAttribute ("ExpirationTime", TimeValue (timeout));
       swtch.Install (switchNode, switchDevices, controller);
     }
-  // Add internet stack to the terminals
-  //InternetStackHelper internet;
-  //internet.Install (terminals);
-  
+ 
   // Install NDN stack
     ndn::StackHelper ndnHelper;
     ndnHelper.SetDefaultRoutes(true);
@@ -181,8 +161,6 @@ main (int argc, char *argv[])
 
     L2RateTracer::InstallAll("Single-drop-trace.txt", Seconds(0.5)); //packet drop rate (overflow)
 
-  csma.EnablePcapAll ("openflow-switch", false);
-
   //
   // Now, do the actual simulation.
   //
@@ -204,7 +182,6 @@ main(int argc, char* argv[])
 {
   return ns3::main(argc, argv);
 }
-
 
 
 
